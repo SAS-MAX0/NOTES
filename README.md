@@ -1,4 +1,4 @@
-# Crazy Slick Notes App
+# NOTES
 
 A **powerful and stylish notes application** built with Quill.js. This app allows users to take formatted notes, save them with audio recordings, and switch between multiple themes for a personalized experience.
 
