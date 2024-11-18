@@ -17,7 +17,12 @@ const quill = new Quill('#editor-container', {
 
 // Save note function
 function saveNote() {
-    const noteContent = quill.root.innerHTML;
+    const noteContent = quill.root.innerHTML.trim();
+    if (!noteContent || noteContent === '<p><br></p>') {
+        showNotification('Cannot save an empty note.');
+        return;
+    }
+
     const note = {
         content: noteContent,
         audio: null,
@@ -35,19 +40,18 @@ function renderNotes() {
     const notesList = document.getElementById('notes-list');
     notesList.innerHTML = '';  // Clear current list of notes
 
-    // Loop through each note in the array
+    if (notes.length === 0) {
+        notesList.innerHTML = '<p>No notes available</p>';
+        return;
+    }
+
     notes.forEach((note, index) => {
         const li = document.createElement('li');
         li.classList.add('note-item');
-        
-        // Display the note content
-        li.innerHTML = `<div class="note-content">${note.content}</div>`;
-        
-        // If the note has an audio recording, add the audio player
-        if (note.audio) {
-            li.innerHTML += `<audio controls src="${note.audio}"></audio>`;
-        }
-        
+        li.innerHTML = `
+            <div class="note-content">${note.content}</div>
+            ${note.audio ? `<audio controls src="${note.audio}"></audio>` : ''}
+        `;
         notesList.appendChild(li);
     });
 }
@@ -90,10 +94,13 @@ let audioChunks = [];
 
 // Start recording audio
 function startRecording() {
+    saveNote(); // Ensure a note exists first before recording
     navigator.mediaDevices.getUserMedia({ audio: true })  // Request access to audio
         .then(stream => {
             mediaRecorder = new MediaRecorder(stream);  // Initialize media recorder
             mediaRecorder.start();  // Start recording audio
+
+            showNotification('Recording started. Speak now!');
 
             mediaRecorder.ondataavailable = event => {
                 audioChunks.push(event.data);  // Store audio chunks
@@ -106,16 +113,23 @@ function startRecording() {
                 
                 // Save the audio URL to the most recent note
                 const noteIndex = notes.length - 1; // Get the last note (most recent)
-                notes[noteIndex].audio = audioUrl;  // Save the audio URL to the note's audio property
-                
-                localStorage.setItem(notesKey, JSON.stringify(notes));  // Save updated notes to localStorage
-                showNotification('Voice note recorded!');  // Notify the user
-                renderNotes();  // Re-render the notes with the audio included
+                if (noteIndex >= 0) {
+                    notes[noteIndex].audio = audioUrl;  // Save the audio URL to the note's audio property
+                    localStorage.setItem(notesKey, JSON.stringify(notes));  // Save updated notes to localStorage
+                    showNotification('Voice note recorded!');
+                    renderNotes();  // Re-render the notes with the audio included
+                } else {
+                    showNotification('No note available to attach audio.');
+                }
             };
         })
         .catch(error => {
-            console.error('Error accessing audio devices:', error);  // Log error if unable to access microphone
+            console.error('Error accessing audio devices:', error);
+            alert('Microphone access denied. Please check your browser settings.');
         });
 }
 
-// To ensure the most recent note is saved with audio, make sure that saveNote() is called first
+// Ensure the history panel renders saved notes when toggled
+window.onload = () => {
+    renderNotes();
+};
