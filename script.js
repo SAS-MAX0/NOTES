@@ -1,10 +1,8 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const notesKey = 'notes';
-    let notes = JSON.parse(localStorage.getItem(notesKey)) || [];
-    let mediaRecorder, audioChunks = [];
+let quill;
+let notes = [];
 
-    // Initialize Quill
-    const quill = new Quill('#editor-container', {
+document.addEventListener('DOMContentLoaded', () => {
+    quill = new Quill('#editor-container', {
         theme: 'snow',
         modules: {
             toolbar: [
@@ -16,57 +14,44 @@ document.addEventListener('DOMContentLoaded', () => {
             ],
         },
     });
-
-    // Save note
-    window.saveNote = function () {
-        const content = quill.root.innerHTML;
-        notes.push({ content, date: new Date().toISOString(), audio: null });
-        localStorage.setItem(notesKey, JSON.stringify(notes));
-        quill.setText('');
-        alert('Note saved!');
-        renderNotes();
-    };
-
-    // Render notes
-    function renderNotes() {
-        const notesList = document.getElementById('notes-list');
-        notesList.innerHTML = '';
-        notes.forEach(note => {
-            const li = document.createElement('li');
-            li.innerHTML = `<div>${note.content}</div>`;
-            notesList.appendChild(li);
-        });
-    }
-
-    // Toggle history
-    window.toggleHistory = function () {
-        document.getElementById('history-panel').classList.toggle('hidden');
-        renderNotes();
-    };
-
-    // Clear editor
-    window.clearEditor = function () {
-        quill.setText('');
-    };
-
-    // Change theme
-    window.changeTheme = function (theme) {
-        document.body.className = theme;
-    };
-
-    // Start recording
-    window.startRecording = function () {
-        navigator.mediaDevices.getUserMedia({ audio: true })
-            .then(stream => {
-                mediaRecorder = new MediaRecorder(stream);
-                mediaRecorder.start();
-                mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-                mediaRecorder.onstop = () => {
-                    const audioBlob = new Blob(audioChunks);
-                    const audioUrl = URL.createObjectURL(audioBlob);
-                    alert('Voice recording saved!');
-                };
-            })
-            .catch(() => alert('Microphone access denied.'));
-    };
 });
+
+function saveNote() {
+    const noteContent = quill.root.innerHTML;
+    if (noteContent.trim() === '') {
+        alert('Please write something before saving.');
+        return;
+    }
+    notes.push(noteContent);
+    updateNotesList();
+    clearEditor();
+}
+
+function updateNotesList() {
+    const notesList = document.getElementById('notes-list');
+    notesList.innerHTML = '';
+    notes.forEach((note, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = note;
+        notesList.appendChild(li);
+    });
+}
+
+function clearEditor() {
+    quill.setContents([]);
+}
+
+function toggleHistory() {
+    const historyPanel = document.getElementById('history-panel');
+    historyPanel.classList.toggle('hidden');
+}
+
+function startRecording() {
+    // Placeholder for voice recording functionality
+    alert('Voice recording feature is not implemented yet.');
+}
+
+function setReminder() {
+    // Placeholder for reminder functionality
+    alert('Set reminder feature is not implemented yet.');
+}
