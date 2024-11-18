@@ -24,7 +24,6 @@ body {
     background: var(--default-background);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    position: relative;
 }
 
 header {
@@ -61,7 +60,7 @@ header h1 {
 }
 
 #editor-container {
-    min-height: 300px;
+    min-height: 300px; /* Ensure the editor has a minimum height */
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 10px;
@@ -100,36 +99,13 @@ aside h2 {
     border-bottom: 1px solid #ddd;
 }
 
-.theme-buttons {
-    margin-top: 1rem;
-}
-
-.theme-btn {
-    width: 30px;
-    height: 30px;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    outline: none;
-    transition: transform 0.2s ease;
-}
-
-.theme-btn:hover {
-    transform: scale(1.2);
-}
-
 footer {
     text-align: center;
     margin-top: 2rem;
     font-size: 0.9rem;
+ color: #666;
 }
 
-/* Theme Styles */
-.theme-red {
-    --default-background: #ff6f61;
-    --default-text-color: #fff;
-    --editor-background: #ff6f61;
-    --editor-text-color: #fff;
+footer p {
+    margin: 0;
 }
-
-/* Add more themes as needed... */
