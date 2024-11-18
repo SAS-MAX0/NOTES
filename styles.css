@@ -53,6 +53,224 @@ header h1 {
     border-radius: 5px;
     cursor: pointer;
     font-size: 0.9rem;
+    transition: background 0.3s, transform 0.2s ease-in-out;
+}
+
+.controls button:hover {
+    background: var(--default-button-hover-bg);
+    transform: translateY(-2px);
+}
+
+#editor-container {
+    min-height: 100px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: var(--editor-background);
+    color: var(--editor-text-color);
+    padding: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--default-button-bg) #f0f0f0;
+}
+
+#editor-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+#editor-container::-webkit-scrollbar-thumb {
+    background: var(--default-button-bg);
+    border-radius: 4px;
+}
+
+.hidden {
+    display: none;
+}
+
+aside {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    background: #f9f9f9;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    overflow-y: auto;
+    transition: transform 0.5s ease-in-out;
+}
+
+aside.hidden {
+    transform: translateX(100%);
+}
+
+aside h2 {
+    margin-top: 0;
+}
+
+#notes-list {
+    list-style: none;
+    padding: 0;
+}
+
+#notes-list li {
+    padding: 0.5rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.theme-buttons {
+    margin-top: 1rem;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.theme-btn {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    outline: none;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.theme-btn:hover {
+    transform: scale(1.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+footer {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+}
+
+/* Theme Styles */
+.theme-red {
+    --default-background: #ff6f61;
+    --default-text-color: #fff;
+    --editor-background: #ff6f61;
+    --editor-text-color: #fff;
+}
+
+.theme-purple {
+    --default-background: #6a4c93;
+    --default-text-color: #fff;
+    --editor-background: #6a4c93;
+    --editor-text-color: #fff;
+}
+
+.theme-cyan {
+    --default-background: #00c1d4;
+    --default-text-color: #fff;
+    --editor-background: #00c1d4;
+    --editor-text-color: #fff;
+}
+
+.theme-yellow {
+    --default-background: #ffde59;
+    --default-text-color: #fff;
+    --editor-background: #ffde59;
+    --editor-text-color: #fff;
+}
+
+.theme-pink {
+    --default-background: #ff6ec7;
+    --default-text-color: #fff;
+    --editor-background: #ff6ec7;
+    --editor-text-color: #fff;
+}
+
+.theme-green {
+    --default-background: #52c41a;
+    --default-text-color: #fff;
+    --editor-background: #52c41a;
+    --editor-text-color: #fff;
+}
+
+.theme-lightpink {
+    --default-background: #f2b5d4;
+    --default-text-color: #333;
+    --editor-background: #f2b5d4;
+    --editor-text-color: #333;
+}
+
+.theme-blue {
+    --default-background: #1890ff;
+    --default-text-color: #fff;
+    --editor-background: #1890ff;
+    --editor-text-color: #fff;
+}
+
+.theme-orange {
+    --default-background: #ff7a00;
+    --default-text-color: #fff;
+    --editor-background: #ff7a00;
+    --editor-text-color: #fff;
+}
+
+.theme-light {
+    --default-background: #f0f2f5;
+    --default-text-color: #333;
+    --editor-background: #f0f2f5;
+    --editor-text-color: #333;
+}
+:root {
+    --default-background: #fff;
+    --default-text-color: #333;
+    --default-button-bg: #007bff;
+    --default-button-hover-bg: #0056b3;
+    --editor-background: #fff;
+    --editor-text-color: #333;
+}
+
+/* Default theme */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: var(--default-background);
+    color: var(--default-text-color);
+    transition: background 0.5s, color 0.5s;
+}
+
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: var(--default-background);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    position: relative;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+
+header h1 {
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+}
+
+.controls button {
+    background: var(--default-button-bg);
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
     transition: background 0.3s;
 }
 
